@@ -8,9 +8,9 @@ const genreRoutes = require('./genre.routes');
 
 router.route('/').get(index);
 
-router.use('/book', bookRoutes);
-router.use('/author', authorRoutes);
-router.use('/genre', genreRoutes);
-router.use('/bookinstance', bookinstanceRoutes);
+router.use('/books', bookRoutes);
+router.use('/authors', authorRoutes);
+router.use('/genres', genreRoutes);
+router.use('/bookinstances', bookinstanceRoutes);
 
 module.exports = router;
