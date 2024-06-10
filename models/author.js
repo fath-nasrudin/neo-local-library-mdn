@@ -19,7 +19,7 @@ authorSchema.virtual('name').get(function() {
 });
 
 authorSchema.virtual('url').get(function() {
-  return  `/catalog/author/${this._id}`;
+  return  `/catalog/authors/${this._id}`;
 });
 
 module.exports = mongoose.model('Author', authorSchema);
