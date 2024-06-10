@@ -1,0 +1,18 @@
+<%- include('header'); -%>
+  <h1>
+    <%= title %>
+  </h1>
+
+  <% if (genre_list.length) { %>
+    <ul>
+      <% genre_list.forEach(genre=> { %>
+        <li>
+          <a href=<%=genre.url%>> <%= genre.name %></a>
+        </li>
+        <% })%>
+    </ul>
+    <% } else { %>
+      <p style="color:rgba(0, 0, 0, 0.5);">No Genre. Please add new genre</p>
+      <% } %>
+
+        <%- include('footer'); -%>
