@@ -1,0 +1,29 @@
+<%- include('header') %>
+
+  <h1><%= title %></h1>
+
+  <form action="/catalog/genres/create" method="post">
+    <div class="form-group">
+      <label for="name">Genre: </label>
+      <input 
+        class="form-control" 
+        type="text" 
+        id="name" 
+        name="name" 
+        placeholder="Fantasy, Poetry, Etc"
+        >
+        <%= genre ? genre.name : '' %>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+
+  <% if (errors) { %>
+   <ul>
+    <% errors.forEach(error => { %>
+     <li><%= error.msg %></li>
+    <% }) %>
+   </ul>
+  <% } %>
+
+<%- include('footer') %>
