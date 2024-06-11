@@ -1,0 +1,75 @@
+<%- include('header'); -%>
+  <h1>Book: <%= book.title %>
+  </h1>
+  <p><strong>Author :</strong>
+    <a href=<%=book.author.url %>>
+      <%= book.author.name %>
+    </a>
+  </p>
+
+  <p><strong>Summary :</strong>
+    <%= book.summary %>
+  </p>
+
+  <p><strong>ISBN :</strong>
+    <%= book.isbn %>
+  </p>
+
+  <p><strong>Genres :</strong>
+    <% book.genre.forEach((genre, i)=> { %>
+      <a href=<%=genre.url %>><%= genre.name %></a>
+      <% if ((i < book.genre.length -1)) { %>
+        ,
+      <% } %>
+
+    <% }) %>
+  </p>
+
+  <div style='margin-left:20px;margin-top:20px'>
+    <h2 style='font-size: 1.5rem;'>Copies</h2>
+
+    
+
+    <% if (bookinstance_list.length) { %>
+      
+      <% bookinstance_list.forEach((bookinstance)=> { %>
+      <hr />
+
+        <% if (bookinstance.status==='Available' ) { %>
+          <p class="text-success">
+            <%= bookinstance.status %>
+          </p>
+        <% } else if (bookinstance.status==='Maintenance' ) { %>
+          <p class="text-danger">
+            <%= bookinstance.status %>
+          </p>
+        <% } else { %>
+          <p class="text-warning">
+            <%= bookinstance.status %>
+          </p>
+        <% } %>
+        
+        <p><strong>Imprint: </strong> 
+          <%= bookinstance.imprint %> 
+        </p>
+
+        <% if (bookinstance.status !== 'Available' ) { %>
+          <p><strong>Due Back :</strong>
+            <%= bookinstance.due_back_formatted %>
+          </p>
+        <% }%>
+
+        <p><strong>Id: </strong>
+          <a href=<%= bookinstance.url %>> <%= bookinstance._id %> </a>
+        </p>
+      <% }) %>
+
+    <% } else { %>
+      <p style="color:rgba(0, 0, 0, 0.65);">There are no copies of this book in the library</p>
+    <% } %>
+
+
+
+  </div>
+
+  <%- include('footer'); -%>
