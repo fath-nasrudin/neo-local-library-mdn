@@ -9,11 +9,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
 mongoose.set('strictQuery', false);
-const MONGODB_URL = 'mongodb://localhost:27017/';
+const LocalDB = 'mongodb://localhost:27017/';
 (async function() {
-  await mongoose.connect(MONGODB_URL);
+  await mongoose.connect(process.env.MONGODB_URI || LocalDB);
 })()
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => {console.log(err)})
