@@ -1,0 +1,93 @@
+<%- include('header') %>
+  <h1><%= title %></h1>
+
+  <form method="post">
+    <div class="form-group">
+      <label for="title">Title: </label>
+      <input
+        required
+        class="form-control" 
+        type="text"
+        id="title"
+        name="title"
+        placeholder="Book title"
+        value= <%= book ? book.title : "" %>        
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="isbn">ISBN: </label>
+      <input
+        required
+        class="form-control" 
+        type="text"
+        id="isbn"
+        name="isbn"
+        placeholder="ISBN"
+        value=<%= book ? book.isbn : "" %>
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="summary">Summary: </label>
+      <textarea 
+        required
+        class="form-control"
+        id="summary"
+        name="summary"
+      >
+        <%= book ? book.summary : "" %>
+      </textarea>
+    </div>
+
+    <%# author field %>
+    <div class="form-group">
+      <label for="author">Author</label>
+      <select class="form-control" name="author" id="author" required>
+        <option value="">Please select an author</option>
+
+        <% authors.forEach(author => { %>
+          <option 
+            value=<%= author._id %>
+            <%= (book && (author._id === book.author._id)) ? 'selected' : '' %>
+
+          >
+            <%= author.family_name %>
+          </option>
+        <% }) %>
+
+      </select>
+    </div>
+
+    <%# genre field %>
+    <div class="form-group">
+      <label>Genre</label>
+      <div>
+        <% genres.forEach(genre => { %>
+          <div style='display: inline; padding-right:10px;'>
+            <input
+              class="checkbox-input"
+              type="checkbox" 
+              name="genre" 
+              id= <%=genre._id%>
+              value= <%=genre._id%>
+            >
+            <label for= <%=genre._id%>><%=genre.name%></label>
+          </div>
+        <% }) %>
+      </div>
+      
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+
+  <% if (errors) { %>
+    <ul class="text-danger">
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+<%- include('footer') %>
