@@ -6,6 +6,7 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 const compression = require('compression');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -27,6 +28,12 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+// for each ip, the limit is 20 req for every minute
+app.use(rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+}))
 
 app.use(helmet.contentSecurityPolicy({
   directives: {
