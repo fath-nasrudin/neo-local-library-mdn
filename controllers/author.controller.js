@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Author = require('../models/author');
 const Book = require('../models/book');
+const {validateFamilyName, validateFirstName, validateDateOfBirth, validateDateOfDeath, validationResult} = require('../middlewares/validators')
 
 exports.authorList = asyncHandler(async (req, res, next) => {
   const allAuthors = await Author.find().exec(); 
@@ -29,13 +30,43 @@ exports.authorDetail = asyncHandler(async (req, res, next) => {
   })
 });
 
-exports.authorCreateGet = asyncHandler(async (req, res, next) => {
-  res.end('NOT IMPLEMENTED: authorCreateGet');
-});
+exports.authorCreateGet = (req, res, next) => {
+  res.render('author_form', {
+    title: 'Add Author',
+    author: null,
+    errors: [],
+  });
+};
 
-exports.authorCreatePost = asyncHandler(async (req, res, next) => {
-  res.end('NOT IMPLEMENTED: authorCreatePost');
-});
+exports.authorCreatePost = [
+  validateFirstName(),
+  validateFamilyName(),
+  validateDateOfBirth(),
+  validateDateOfDeath(),
+  asyncHandler( async (req, res, next) => {
+  const errors = validationResult(req);
+
+  const author = new Author({
+    first_name: req.body.first_name,
+    family_name: req.body.family_name,
+    date_of_birth: req.body.date_of_birth,
+    date_of_death: req.body.date_of_death,
+  });
+
+ if (!errors.isEmpty()) {
+    // There are errors. Render form again with sanitized values/errors messages.
+    res.render("author_form", {
+      title: "Create Author",
+      author: author,
+      errors: errors.array(),
+    });
+    return;
+  }
+
+  await author.save();
+  res.redirect(author.url);
+})
+];
 
 exports.authorDeleteGet = asyncHandler(async (req, res, next) => {
   res.end('NOT IMPLEMENTED: authorDeleteGet');
